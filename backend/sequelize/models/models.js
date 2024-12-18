@@ -7,44 +7,54 @@ const sequelize = new Sequelize("recipesdb", "postgres", "helloworld0905", {
   dialect: "postgres",
 });
 
-const Recipes = sequelize.define("Recipes", {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  calories: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  mealTime: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  preparingTime: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  difficulty: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  instructions: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  }, 
-  userId: {
-    type: DataTypes.INTEGER,
-    field: 'UserId' 
-  }
-}, 
+const Recipes = sequelize.define(
+  "Recipes",
   {
-    timestamps: false 
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    calories: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    mealTime: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    preparingTime: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    difficulty: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    instructions: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    ingredients: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
+    },
+    coverImage: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      field: "UserId",
+    },
+  },
+  {
+    timestamps: false,
   }
 );
 
@@ -61,30 +71,28 @@ const Ingredients = sequelize.define("Ingredients", {
   },
 });
 
-const Users = sequelize.define("Users", {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const Users = sequelize.define(
+  "Users",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
+  {
+    timestamps: false,
+  }
+);
 
 const CookTips = sequelize.define("CookTips", {
   id: {
@@ -174,5 +182,5 @@ module.exports = {
   Users,
   FavoriteRecipes,
   RecipeIngredients,
-  sequelize
+  sequelize,
 };
