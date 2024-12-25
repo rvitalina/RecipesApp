@@ -17,17 +17,20 @@ export default function Home() {
         } else {
             setIsOpen(true)
         }
-
-        // navigate("/addRecipe")
     }
 
     return (
         <>
             <section className="home">
                 <div className="left">
-                    <h1>Food Recipe</h1>
-                    <h5>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. </h5>
-                    <button onClick={addRecipe}>Share your recipe</button>
+                    <h1>Все рецепты теперь в одном месте!</h1>
+                    <h5>
+                        Создавайте и публикуйте свои собственные рецепты, делясь оригинальными идеями с нашим сообществом. Будь то семейный рецепт, который передавался из поколения в поколение, или новое творение, мы рады видеть ваши кулинарные шедевры!
+                        Найден идеальный рецепт? Сохраняйте его в своем списке избранных, чтобы всегда иметь под рукой свои любимые блюда. Легко и удобно!
+                        Ваше мнение важно! Пишите отзывы о рецептах, которые вы пробовали, и помогайте другим пользователям выбрать лучшие идеи для приготовления. Обмен опытом делает наше сообщество сильнее!
+                        У вас есть секреты приготовления, которые могут помочь другим? Делитесь своими советами и трюками в кулинарии, и вместе мы создадим атмосферу поддержки и вдохновения.
+                    </h5>
+                    <button onClick={addRecipe}>Поделиться рецептом</button>
                 </div>
                 <div className="right">
                     <img src={logo} width="320px" height="320px" alt="" />
