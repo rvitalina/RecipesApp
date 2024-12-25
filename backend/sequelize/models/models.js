@@ -46,7 +46,7 @@ const Recipes = sequelize.define(
     },
     coverImage: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -94,43 +94,70 @@ const Users = sequelize.define(
   }
 );
 
-const CookTips = sequelize.define("CookTips", {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const CookTips = sequelize.define(
+  "CookTips",
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: Sequelize.TEXT,
+      allowNull: false,
+    },
+    userId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
+    },
   },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  content: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+  {
+    timestamps: false,
+  }
+);
 
-const Reviews = sequelize.define("Reviews", {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+const Reviews = sequelize.define(
+  "Reviews",
+  {
+    userId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
+    },
+    rate: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 5,
+      },
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   },
-  content: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+  {
+    timestamps: false,
+  }
+);
 
 const RecipeIngredients = sequelize.define("RecipeIngredients", {
   quantity: {
@@ -159,17 +186,17 @@ const FavoriteRecipes = sequelize.define("FavoriteRecipes", {
 });
 
 // Описание отношений между моделями
-Users.hasOne(Reviews);
-Reviews.belongsTo(Users);
+Users.hasOne(Reviews, { foreignKey: "userId" });
+Reviews.belongsTo(Users, { foreignKey: "userId" });
 
-Users.hasMany(CookTips);
-CookTips.belongsTo(Users);
+Users.hasMany(CookTips, { foreignKey: "userId" });
+CookTips.belongsTo(Users, { foreignKey: "userId" });
 
 Users.hasMany(Recipes);
 Recipes.belongsTo(Users);
 
-Recipes.belongsToMany(Ingredients, { through: RecipeIngredients });
-Ingredients.belongsToMany(Recipes, { through: RecipeIngredients });
+// Recipes.belongsToMany(Ingredients, { through: RecipeIngredients });
+// Ingredients.belongsToMany(Recipes, { through: RecipeIngredients });
 
 Users.belongsToMany(Recipes, { through: FavoriteRecipes });
 Recipes.belongsToMany(Users, { through: FavoriteRecipes });
