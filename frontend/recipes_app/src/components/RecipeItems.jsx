@@ -11,7 +11,7 @@ import { autoTable } from 'jspdf-autotable'
 // import "@fontsource/roboto/400.css";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
-
+import { HiOutlineLightBulb } from "react-icons/hi";
 export default function RecipeItems() {
     const [allRecipes, setAllRecipes] = useState([]);
     const [myRecipes, setMyRecipes] = useState([]);
@@ -20,7 +20,7 @@ export default function RecipeItems() {
     const [mealTimeFilter, setMealTimeFilter] = useState('');
     const [difficultyFilter, setDifficultyFilter] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [excludedIngredient, setExcludedIngredient] = useState(''); 
+    const [excludedIngredient, setExcludedIngredient] = useState('');
     const [includedIngredients, setIncludedIngredients] = useState('');
     const [randomRecipe, setRandomRecipe] = useState(null);
 
@@ -116,12 +116,12 @@ export default function RecipeItems() {
         .filter(item => (difficultyFilter ? item.difficulty === difficultyFilter : true))
         .filter(item => (searchQuery ? item.title.toLowerCase().includes(searchQuery.toLowerCase()) : true))
         .filter(item => (excludedIngredient ? !item.ingredients.includes(excludedIngredient) : true));
-        // .filter(item => {
-        //     const ingredientsArray = includedIngredients.split(',').map(ingredient => ingredient.trim().toLowerCase());
-        //     return ingredientsArray.length > 0 && 
-        //            ingredientsArray.every(ingredient => item.ingredients.map(i => i.toLowerCase()).includes(ingredient)) &&
-        //            ingredientsArray.length === item.ingredients.length; // Полное совпадение по количеству
-        // })
+    // .filter(item => {
+    //     const ingredientsArray = includedIngredients.split(',').map(ingredient => ingredient.trim().toLowerCase());
+    //     return ingredientsArray.length > 0 && 
+    //            ingredientsArray.every(ingredient => item.ingredients.map(i => i.toLowerCase()).includes(ingredient)) &&
+    //            ingredientsArray.length === item.ingredients.length; // Полное совпадение по количеству
+    // })
 
 
     const sortRecipes = (recipes) => {
@@ -143,7 +143,7 @@ export default function RecipeItems() {
         }
         return sortedRecipes;
     };
-    
+
     // let recipesToDisplay;
     // if(includedIngredients('')) {
     //     recipesToDisplay = filteredRecipes
@@ -178,26 +178,26 @@ export default function RecipeItems() {
                 />
             </div>
 
-            <div className="buttons-for-list" style={{flexDirection: 'column'}}>
+            <div className="buttons-for-list" style={{ flexDirection: 'column' }}>
                 <h4>Введите ингридиент, которого не должно быть в рецепте:</h4>
-                <input 
-                    type="text" 
-                    placeholder="Введите ингредиент..." 
-                    value={excludedIngredient} 
-                    onChange={(e) => setExcludedIngredient(e.target.value)} 
+                <input
+                    type="text"
+                    placeholder="Введите ингредиент..."
+                    value={excludedIngredient}
+                    onChange={(e) => setExcludedIngredient(e.target.value)}
                 />
             </div>
 
-            <div className="buttons-for-list" style={{flexDirection: 'column'}}>
+            {/* <div className="buttons-for-list" style={{ flexDirection: 'column' }}>
                 <h4>Введите ингредиенты, которые есть у вас:</h4>
-                <input 
-                    type="text" 
-                    placeholder="Ингредиенты, которые есть у вас (через запятую)..." 
-                    value={includedIngredients} 
-                    onChange={(e) => setIncludedIngredients(e.target.value)} 
+                <input
+                    type="text"
+                    placeholder="Ингредиенты, которые есть у вас (через запятую)..."
+                    value={includedIngredients}
+                    onChange={(e) => setIncludedIngredients(e.target.value)}
                 />
-            </div>
-            
+            </div> */}
+
             <div className="buttons-for-list">
                 <select
                     name="sortings"
@@ -235,31 +235,37 @@ export default function RecipeItems() {
                 <button className='random-btn' onClick={getRandomRecipe}>Случайный рецепт</button>
             </div>
 
+            <div className="buttons-for-list">
+                <p style={{fontSize: '20px'}}><HiOutlineLightBulb style={{fontSize: '30px', color:'grey'}}/>  Нажмите на название рецепта, чтобы просмотреть подробную информацию о нем</p>
+            </div>
+
             <div className="card-container">
                 {sortRecipes(filteredRecipes)?.map((item, index) => (
-                    <div key={index} className='card'>
-                        <img src={item.coverImage ? `${import.meta.env.VITE_REACT_API_URL}/${item.coverImage}` : "../assets/nofoto.jpg"} width="120px" height="100px" alt="" />
-                        <div className="card-body">
-                            <div className="title">{item.title}</div>
-                            <div className="icons">
-                                <div className="timer"><BsStopwatchFill />{item.preparingTime} мин</div>
-                                {
-                                    (path === "/favRecipe") ? (
-                                        <FaHeart onClick={() => favRecipe(item)}
-                                            style={{ color: (favRecipes.some(res => res.id === item.id)) ? "red" : "" }} />
-                                    ) : (path === "/myRecipe") ? (
-                                        <div className="action">
-                                            <Link to={`/editRecipe/${item.id}`} className='editIcon'><FaEdit /></Link>
-                                            <MdDelete onClick={() => onDelete(item.id)} className='deleteIcon' />
-                                        </div>
-                                    ) : (
-                                        <FaHeart onClick={() => favRecipe(item)}
-                                            style={{ color: (favRecipes.some(res => res.id === item.id)) ? "red" : "" }} />
-                                    )
-                                }
+                    
+                        <div key={index} className='card'>
+                            <img src={item.coverImage ? `${import.meta.env.VITE_REACT_API_URL}/${item.coverImage}` : "../assets/nofoto.jpg"} width="120px" height="100px" alt="" />
+                            <div className="card-body">
+                                <Link to={`/recipeDetails/${item.id}`} style={{color:'black'}} className="title">{item.title}</Link>
+                                <div className="icons">
+                                    <div className="timer"><BsStopwatchFill />{item.preparingTime} мин</div>
+                                    {
+                                        (path === "/favRecipe") ? (
+                                            <FaHeart onClick={() => favRecipe(item)}
+                                                style={{ color: (favRecipes.some(res => res.id === item.id)) ? "red" : "" }} />
+                                        ) : (path === "/myRecipe") ? (
+                                            <div className="action">
+                                                <Link to={`/editRecipe/${item.id}`} className='editIcon'><FaEdit /></Link>
+                                                <MdDelete onClick={() => onDelete(item.id)} className='deleteIcon' />
+                                            </div>
+                                        ) : (
+                                            <FaHeart onClick={() => favRecipe(item)}
+                                                style={{ color: (favRecipes.some(res => res.id === item.id)) ? "red" : "" }} />
+                                        )
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    
                 ))}
             </div>
         </>
