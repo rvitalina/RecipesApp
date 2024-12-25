@@ -6,31 +6,30 @@ import AddFoodRecipe from './pages/AddFoodRecipe'
 import MainNavigation from './components/MainNavigation';
 import axios from 'axios';
 import EditRecipe from './pages/EditRecipe';
-
-
-// const getAllRecipes = async () => {
-//   let allRecipes = []
-//   await axios.get('http://localhost:5000/recipe').then(res => {
-//     allRecipes = res.data
-//   })
-//   return allRecipes
-// }
-
-
+import Reviews from './pages/Reviews';
+import AddReview from './pages/AddReview';
+import AddCookTip from './pages/AddCookTip';
+import CookTips from './pages/CookTips';
+import PersonalData from './pages/PersonalData';
+import RecipeDetails from './pages/RecipeDetails';
 
 const router = createBrowserRouter([
   {
     path: "/", element: <MainNavigation />, children: [
-      // { path: "/", element: <Home />, loader: getAllRecipes }
       { path: "/", element: <Home /> },
-      {path: "/myRecipe", element: <Home/>},
-      {path: "/favRecipe", element: <Home/>},
-      {path: "/addRecipe", element: <AddFoodRecipe/>},
-      {path: "/editRecipe/:id", element: <EditRecipe/>}
+      { path: "/myRecipe", element: <Home /> },
+      { path: "/favRecipe", element: <Home /> },
+      { path: "/addRecipe", element: <AddFoodRecipe /> },
+      { path: "/editRecipe/:id", element: <EditRecipe /> },
+      { path: "/review", element: <Reviews /> },
+      { path: "/addReview", element: <AddReview /> },
+      { path: "/tip", element: <CookTips /> },
+      { path: "/addTip", element: <AddCookTip /> },
+      { path: "/personalData", element: <PersonalData /> },
+      { path: "/recipeDetails/:id", element: <RecipeDetails /> },
 
     ]
   }
-
 ]);
 
 export default function App() {
