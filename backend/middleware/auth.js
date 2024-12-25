@@ -19,4 +19,13 @@ const verifyToken = async(req,res, next) => {
     }
 }
 
-module.exports=verifyToken
+const checkAdmin = (req, res, next) => {
+    if (req.user && req.user.email === 'admin@mail.ru') {
+        console.log("Доступ предоставлен для администратора:", req.user.email);
+        return next(); // Если это администратор, продолжаем
+    }
+    console.log("Доступ запрещен для:", req.user ? req.user.email : "неизвестный пользователь");
+    return res.status(403).json({ message: "Access denied." }); // Если не администратор
+};
+
+module.exports={verifyToken, checkAdmin}
