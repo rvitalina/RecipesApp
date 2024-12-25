@@ -61,7 +61,7 @@ const addRecipe = async (req, res) => {
     !userId ||
     !ingredients
   ) {
-    return res.json({ message: "Required fields cannot be empty" });
+    return res.status(400).json({ message: "Required fields cannot be empty" });
   }
 
   try {
@@ -78,7 +78,6 @@ const addRecipe = async (req, res) => {
       ingredients,
       coverImage: req.file != undefined ? req.file.filename : "",
     });
-    // console.log(newRecipe);
 
     return res.json(newRecipe);
   } catch (error) {
@@ -102,23 +101,6 @@ const editRecipe = async (req, res) => {
   try {
     Recipes.update(req.body, {where: {id: req.params.id}})
 
-    // let recipe = await Recipes.findByPk(req.params.id);
-
-    // if (!recipe) {
-    //   return res.status(404).json({ message: "Recipe not found" });
-    // }
-
-    // recipe.title = title;
-    // recipe.calories = calories;
-    // recipe.mealTime = mealTime;
-    // recipe.preparingTime = preparingTime;
-    // recipe.difficulty = difficulty;
-    // recipe.instructions = instructions;
-    // recipe.userId = userId;
-    // recipe.ingredients = ingredients;
-
-    // await recipe.save();
-
     return res.json(req.body);
   } catch (error) {
     console.error("Error editing recipe:", error);
@@ -127,7 +109,7 @@ const editRecipe = async (req, res) => {
 };
 
 const deleteRecipe = async (req, res) => {
-  const { id } = req.params; // Получаем ID из параметров запроса
+  const { id } = req.params; 
 
   if (!id) {
     return res.status(400).json({ message: "Recipe ID is required" });
@@ -135,7 +117,7 @@ const deleteRecipe = async (req, res) => {
 
   try {
     const deletedCount = await Recipes.destroy({
-      where: { id } // Указываем условие для удаления
+      where: { id }
     });
 
     if (deletedCount === 0) {
